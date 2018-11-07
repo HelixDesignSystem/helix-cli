@@ -1,0 +1,65 @@
+{
+  "name": "helix-cli",
+  "description": "Helix CLI",
+  "version": "0.1.0",
+  "author": "Rackspace",
+  "bin": {
+    "helix": "./bin/run"
+  },
+  "bugs": "https://github.com/HelixDesignSystem/helix-cli/issues",
+  "dependencies": {
+    "@oclif/command": "^1.5.4",
+    "@oclif/config": "^1.8.8",
+    "@oclif/errors": "latest",
+    "@oclif/plugin-autocomplete": "^0.1.0",
+    "@oclif/plugin-help": "^2.1.3",
+    "tslib": "^1.9.3"
+  },
+  "devDependencies": {
+    "@oclif/dev-cli": "^1.19.4",
+    "@oclif/test": "^1.2.2",
+    "@oclif/tslint": "^3.1.1",
+    "@types/chai": "^4.1.7",
+    "@types/mocha": "^5.2.5",
+    "@types/node": "^10.12.2",
+    "chai": "^4.2.0",
+    "globby": "^8.0.1",
+    "mocha": "^5.2.0",
+    "nyc": "^13.1.0",
+    "ts-node": "^7.0.1",
+    "tslint": "^5.11.0",
+    "typescript": "^3.1.3"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "files": [
+    "/bin",
+    "/lib",
+    "/npm-shrinkwrap.json",
+    "/oclif.manifest.json"
+  ],
+  "homepage": "https://github.com/HelixDesignSystem/helix-cli",
+  "keywords": [
+    "oclif"
+  ],
+  "license": "Apache-2.0",
+  "main": "lib/index.js",
+  "oclif": {
+    "commands": "./lib/commands",
+    "bin": "helix",
+    "plugins": [
+      "@oclif/plugin-help",
+      "@oclif/plugin-autocomplete"
+    ]
+  },
+  "repository": "HelixDesignSystem/helix-cli",
+  "scripts": {
+    "postpack": "rm -f oclif.manifest.json",
+    "posttest": "tslint -p test -t stylish",
+    "prepack": "rm -rf lib && tsc -b && oclif-dev manifest && oclif-dev readme",
+    "test": "nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\"",
+    "version": "oclif-dev readme && git add README.md"
+  },
+  "types": "lib/index.d.ts"
+}
