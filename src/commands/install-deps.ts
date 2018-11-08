@@ -29,12 +29,17 @@ export default class InstallDeps extends Command {
       char: 'o',
       default: 'public/assets',
       description: 'Destination Folder'
+    }),
+    'dry-run': flags.boolean({
+      default: false,
+      description: 'Dry run (shows output but does not copy files)'
     })
   };
 
   async run() {
     const { flags } = this.parse(InstallDeps);
     const destFolder = flags.output as string;
+    const dryRun = flags['dry-run'];
     const bundlesFolder = `${destFolder}/bundles`;
     const targetFolders = [destFolder, bundlesFolder];
 
@@ -42,6 +47,12 @@ export default class InstallDeps extends Command {
     targetFolders.forEach(folder => {
       fs.ensureDirSync(folder);
     });
+
+    const dryRunMessage = `
+      NOTE: Dry run mode enabled -- the following files would have been copied
+      if this command is run without the --dry-run flag.
+    `.replace(/\s+/g, ' ').trim();
+    dryRun && this.log(chalk.blueBright(dryRunMessage));
 
     // Copy assets
     Object.entries(STATIC_ASSETS).forEach(([srcFolder, fileOptions]) => {
@@ -63,16 +74,16 @@ export default class InstallDeps extends Command {
 
       filesToCopy.forEach(filename => {
         const src = `${srcFolder}/${filename}`;
-        this.copyFile(src, destFolder, filename);
+        this.copyFile(src, destFolder, filename, dryRun);
       });
     });
   }
 
-  private copyFile(src: string, destFolder: string | undefined, filename: string) {
+  private copyFile(src: string, destFolder: string | undefined, filename: string, dryRun: boolean) {
     const dest = `${destFolder}/${filename}`;
 
     try {
-      fs.copyFileSync(src, dest);
+      dryRun || fs.copyFileSync(src, dest);
       this.log(chalk.green(`Copied ${src} to ${dest}`));
     } catch (err) {
       this.error(chalk.red(`ERROR: Unable to copy ${src} to ${dest}`));

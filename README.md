@@ -36,7 +36,7 @@ USAGE
 OPTIONS
   -f, --force
   -h, --help       show CLI help
-  -n, --name=name  name to print
+  --dry-run        Show output but don't install deps
 ```
 
 ## `helix help [COMMAND]`
