@@ -3,11 +3,11 @@
  *   node_modules to destination folder (defaults to public/assets)
  *
  */
-const chalk = require('chalk');
-const fs = require('fs-extra');
-const glob = require('glob');
-
 import { Command, flags } from '@oclif/command';
+import chalk from 'chalk';
+import * as fs from 'fs-extra';
+
+import * as globby from 'globby';
 
 const STATIC_ASSETS = {
   '@webcomponents/webcomponentsjs': {
@@ -20,7 +20,7 @@ const STATIC_ASSETS = {
 };
 
 export default class InstallDeps extends Command {
-  static description = 'describe the command here';
+  static description = 'Install Helix Dependencies';
 
   static flags = {
     help: flags.help({ char: 'h' }),
@@ -34,7 +34,7 @@ export default class InstallDeps extends Command {
 
   async run() {
     const { flags } = this.parse(InstallDeps);
-    const destFolder = flags.output;
+    const destFolder = flags.output as string;
     const bundlesFolder = `${destFolder}/bundles`;
     const targetFolders = [destFolder, bundlesFolder];
 
@@ -55,7 +55,7 @@ export default class InstallDeps extends Command {
 
       fileOptions.filePatterns &&
         fileOptions.filePatterns.forEach(pattern => {
-          const files = glob.sync(pattern, { cwd: srcFolder });
+          const files = globby.sync(pattern, { cwd: srcFolder });
           files.forEach((filename: string) => {
             filesToCopy.push(filename);
           });
