@@ -19,7 +19,7 @@ const STATIC_ASSETS = {
   }
 };
 
-export default class CopyPolyfills extends Command {
+export default class InstallDeps extends Command {
   static description = 'describe the command here';
 
   static flags = {
@@ -33,7 +33,7 @@ export default class CopyPolyfills extends Command {
   };
 
   async run() {
-    const { flags } = this.parse(CopyPolyfills);
+    const { flags } = this.parse(InstallDeps);
     const destFolder = flags.output;
     const bundlesFolder = `${destFolder}/bundles`;
     const targetFolders = [destFolder, bundlesFolder];
