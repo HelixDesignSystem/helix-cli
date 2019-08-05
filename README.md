@@ -1,6 +1,8 @@
 helix-cli
 =========
 
+**STATUS**: defunct - functionality needs migrated to [`helix-ui`](https://github.com/rackerlabs/helix-ui) as part of its distributed assets.
+
 Helix CLI
 
 * [Usage](#usage)
